@@ -2,9 +2,10 @@ const express = require("express");
 const router = express.Router();
 
 const Room = require("../models/Room");
+const User = require("../models/User");
 
 // Get One Room
-router.get(":id", async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
     // Find Room
     let room = await Room.findById(req.params.id);
@@ -43,7 +44,7 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
   const { roomType } = req.body;
   try {
-    let room = Room({ roomType, user: req.user.id });
+    let room = Room({ roomType });
 
     // Save Room
     await room.save();

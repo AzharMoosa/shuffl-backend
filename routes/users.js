@@ -60,11 +60,11 @@ router.put("/:id", async (req, res) => {
     // Update User
     user = await User.findByIdAndUpdate(
       req.params.id,
-      { $set: updatedRoom },
+      { $set: updatedUser },
       { new: true }
     );
 
-    res.json(room);
+    res.json(user);
   } catch (err) {
     console.error(err.message);
     res.status(500).json({ msg: "Server Error" });
