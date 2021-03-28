@@ -4,9 +4,6 @@ const SongSchema = mongoose.Schema({
   name: {
     type: String,
   },
-  songID: {
-    type: String,
-  },
   link: {
     type: String,
   },

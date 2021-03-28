@@ -57,10 +57,6 @@ router.put("/:id", async (req, res) => {
       updatedSong.link = link;
     }
 
-    if (!songID) {
-      updatedSong.songID = songID;
-    }
-
     // Update Song
     song = await Song.findByIdAndUpdate(
       req.params.id,

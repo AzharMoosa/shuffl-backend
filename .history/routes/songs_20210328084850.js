@@ -17,14 +17,14 @@ router.get("/:id", async (req, res) => {
 
 // Create Song
 router.post("/", async (req, res) => {
-  const { name, link, artist, songID } = req.body;
+  const { name, link, artist } = req.body;
   try {
     let data = {
       song: name,
       artist: artist,
     };
 
-    let song = Song({ name, link, data, songID });
+    let song = Song({ name, link, data });
 
     // Save Song
     await song.save();
@@ -38,7 +38,7 @@ router.post("/", async (req, res) => {
 
 // Update Song
 router.put("/:id", async (req, res) => {
-  const { name, link, songID } = req.body;
+  const { name, link } = req.body;
   const updatedSong = {};
 
   try {
@@ -55,10 +55,6 @@ router.put("/:id", async (req, res) => {
 
     if (link) {
       updatedSong.link = link;
-    }
-
-    if (!songID) {
-      updatedSong.songID = songID;
     }
 
     // Update Song
