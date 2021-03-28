@@ -3,7 +3,6 @@ const router = express.Router();
 
 const Room = require("../models/Room");
 const Playlist = require("../models/Playlist");
-const Song = require("../models/Song");
 const User = require("../models/User");
 
 // Get One Room
@@ -51,24 +50,22 @@ router.post("/rank", async (req, res) => {
     let bestScore = -1;
     let bestRoomId = -1;
     let rooms = await Room.find();
-    for (let i = 0; i < rooms.length; i++) {
+    rooms.forEach((room) => {
       // calculate the affinity of the user with this room
-      let score = await calculateScore(user, songs, rooms[i]);
+      let score = calculateScore(user, songs, room);
       // compare the obtained score with the best obtained by now
       if (score > bestScore) {
-        bestScore = score;
-        bestRoomId = rooms[i];
+        score = bestScore;
+        bestRoomId = roomId;
       }
-    }
+    });
+
     let room;
     if (bestRoomId == -1) {
       // no room is good enough: create a new room for this user
-      room = Room({ roomType: "New" });
+      room = Room({ roomType: "No Type" });
       await room.save();
       // assign the user to this new room
-      bestRoomId = room._id;
-    } else {
-      room = bestRoomId;
       bestRoomId = room._id;
     }
 
@@ -90,27 +87,20 @@ router.post("/rank", async (req, res) => {
   }
 });
 
-const calculateScore = async (user, usersSongs, room) => {
+const calculateScore = async (user, songs, room) => {
   let artistsOccurrences = {};
-  for (let i = 0; i < usersSongs.length; i++) {
-    let song = await Song.findById(usersSongs[i]);
-    const { data } = song;
-    const { artist } = data;
-    artistsOccurrences[artist] = (artistsOccurrences[artist] || 0) + 1;
-  }
+  songs.forEach((song) => {
+    artistsOccurrences[song.artist] =
+      (artistsOccurrences[song.artist] || 0) + 1;
+  });
   // score representing the affinity of the user with the room
   let score = 0;
-  let { playlist } = room;
+  let playlist = room.playlist;
   let playlistData = await Playlist.findById(playlist);
-  if (playlistData != null) {
-    let { songs } = playlistData;
-    for (let i = 0; i < songs.length; i++) {
-      let song = await Song.findById(songs[i]);
-      const { data } = song;
-      const { artist } = data;
-      score += artistsOccurrences[artist];
-    }
-  }
+  songsPlaylist = playlistData.songs;
+  songsPlaylist.forEach((song) => {
+    score += artistsOccurrences[song.artist];
+  });
   return score;
 };
 

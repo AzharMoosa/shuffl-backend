@@ -1,9 +1,6 @@
 const express = require("express");
 const router = express.Router();
 
-const Playlist = require("../models/Playlist");
-const Song = require("../models/Song");
-
 // Get Playlist
 router.get("/:id", async (req, res) => {
   try {
@@ -52,7 +49,7 @@ router.put("/:id", async (req, res) => {
     // Update Playlist
     playlist = await Playlist.findByIdAndUpdate(
       req.params.id,
-      { $set: updatedPlaylist },
+      { $set: updatedSong },
       { new: true }
     );
 

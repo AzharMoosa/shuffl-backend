@@ -52,7 +52,7 @@ router.put("/:id", async (req, res) => {
     // Update Playlist
     playlist = await Playlist.findByIdAndUpdate(
       req.params.id,
-      { $set: updatedPlaylist },
+      { $set: updatedSong },
       { new: true }
     );
 

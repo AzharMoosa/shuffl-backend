@@ -68,7 +68,7 @@ router.post("/rank", async (req, res) => {
       // assign the user to this new room
       bestRoomId = room._id;
     } else {
-      room = bestRoomId;
+      room = Room.findById(bestRoomId);
       bestRoomId = room._id;
     }
 

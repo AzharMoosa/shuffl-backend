@@ -51,24 +51,22 @@ router.post("/rank", async (req, res) => {
     let bestScore = -1;
     let bestRoomId = -1;
     let rooms = await Room.find();
-    for (let i = 0; i < rooms.length; i++) {
+    rooms.forEach(async (room) => {
       // calculate the affinity of the user with this room
-      let score = await calculateScore(user, songs, rooms[i]);
+      let score = await calculateScore(user, songs, room);
       // compare the obtained score with the best obtained by now
       if (score > bestScore) {
-        bestScore = score;
-        bestRoomId = rooms[i];
+        score = bestScore;
+        bestRoomId = room;
       }
-    }
+    });
+
     let room;
     if (bestRoomId == -1) {
       // no room is good enough: create a new room for this user
       room = Room({ roomType: "New" });
       await room.save();
       // assign the user to this new room
-      bestRoomId = room._id;
-    } else {
-      room = bestRoomId;
       bestRoomId = room._id;
     }
 
@@ -108,6 +106,7 @@ const calculateScore = async (user, usersSongs, room) => {
       let song = await Song.findById(songs[i]);
       const { data } = song;
       const { artist } = data;
+      console.log(artistsOccurrences[artist]);
       score += artistsOccurrences[artist];
     }
   }

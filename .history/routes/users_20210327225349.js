@@ -31,7 +31,7 @@ router.post("/", async (req, res) => {
 
 // UPDATE
 router.put("/:id", async (req, res) => {
-  const { name, room, x, y, playlist } = req.body;
+  const { name, room, x, y } = req.body;
   const updatedUser = {};
   try {
     let user = await User.findById(req.params.id);
@@ -55,10 +55,6 @@ router.put("/:id", async (req, res) => {
 
     if (room) {
       updatedUser.room = room;
-    }
-
-    if (playlist) {
-      updatedUser.playlists = [playlist, ...user.playlists];
     }
 
     // Update User

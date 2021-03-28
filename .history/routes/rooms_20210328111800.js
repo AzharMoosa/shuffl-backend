@@ -57,18 +57,16 @@ router.post("/rank", async (req, res) => {
       // compare the obtained score with the best obtained by now
       if (score > bestScore) {
         bestScore = score;
-        bestRoomId = rooms[i];
+        bestRoomId = room;
       }
     }
+
     let room;
     if (bestRoomId == -1) {
       // no room is good enough: create a new room for this user
       room = Room({ roomType: "New" });
       await room.save();
       // assign the user to this new room
-      bestRoomId = room._id;
-    } else {
-      room = bestRoomId;
       bestRoomId = room._id;
     }
 

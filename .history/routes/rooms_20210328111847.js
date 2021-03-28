@@ -67,9 +67,6 @@ router.post("/rank", async (req, res) => {
       await room.save();
       // assign the user to this new room
       bestRoomId = room._id;
-    } else {
-      room = bestRoomId;
-      bestRoomId = room._id;
     }
 
     // update field in the user class
