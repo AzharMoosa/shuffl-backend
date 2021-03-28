@@ -7,6 +7,7 @@ const SongSchema = mongoose.Schema({
   link: {
     type: String,
   },
+  data: { song: String, artist: String },
 });
 
 module.exports = mongoose.model("song", SongSchema);

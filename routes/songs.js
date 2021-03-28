@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
+const Song = require("../models/Song");
+
 // Get Song
 router.get("/:id", async (req, res) => {
   try {
@@ -15,9 +17,14 @@ router.get("/:id", async (req, res) => {
 
 // Create Song
 router.post("/", async (req, res) => {
-  const { name, link } = req.body;
+  const { name, link, artist } = req.body;
   try {
-    let song = Song({ name, link });
+    let data = {
+      song: name,
+      artist: artist,
+    };
+
+    let song = Song({ name, link, data });
 
     // Save Song
     await song.save();
