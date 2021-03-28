@@ -8,9 +8,6 @@ const RoomSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "song",
   },
-  currentSong: {
-    type: String,
-  },
   playlist: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "playlist",

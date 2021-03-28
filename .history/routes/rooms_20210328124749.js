@@ -155,10 +155,6 @@ router.put("/:id", async (req, res) => {
       updatedRoom.playlist = playlist;
     }
 
-    if (currentSong) {
-      updatedRoom.currentSong = currentSong;
-    }
-
     // Update Room
     room = await Room.findByIdAndUpdate(
       req.params.id,
